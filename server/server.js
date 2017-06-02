@@ -26,9 +26,11 @@ io.on('connection', (socket)=>{
   //send to everyone else when user connects
   socket.broadcast.emit('newMessage', generateMessage("Admin", "A new user joined the room"));
 
-  socket.on('createMessage', (message) =>{
+  socket.on('createMessage', (message, callback) =>{
     console.log('createMessage', message);
     io.emit('newMessage', generateMessage(message.from, message.text));
+    //verifies to client message was receieved
+    callback('This is from the server');
   });
 
   socket.on('disconnect', ()=>{
