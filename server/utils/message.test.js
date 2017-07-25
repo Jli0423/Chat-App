@@ -9,7 +9,7 @@ describe('generateMessage', ()=>{
     expect(message.from).toBe(from);
     expect(message.text).toBe(text);
     expect(message.createdAt).toBeA('number');
-  })
+  });
 });
 
 
