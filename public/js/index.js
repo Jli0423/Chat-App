@@ -1,4 +1,21 @@
 var socket = io();
+
+//scroll to bottom auto
+function scrollToBottom(){
+  //selectors
+  var messages = jQuery('#messages');
+  var newMessage = messages.children('li');
+  //heights
+  var clientHeight = messages.prop('clientHeight');
+  var scrollTop = messages.prop('scrollTop');
+  var scrollHeight = messages.prop('scrollHeight');
+  var newMessageHeight = newMessage.innerHeight();
+  var lastMessageHeight = newMessage.prev().innerHeight();
+
+  if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+    messages.scrollTop(scrollHeight);
+  }
+};
 //check for connection
 socket.on('connect', function(){
   console.log('connected to server');
@@ -19,11 +36,7 @@ socket.on('newMessage', function(message){
   });
 
   jQuery('#messages').append(html);
-  // console.log('newMessage', message);
-  // var li = jQuery('<li></li>');
-  // li.text(`${message.from} ${formattedTime}: ${message.text}`);
-  //
-  // jQuery('#messages').append(li);
+  scrollToBottom();
 });
 
 socket.on('newLocationMessage', function(message){
@@ -35,16 +48,7 @@ socket.on('newLocationMessage', function(message){
     createdAt : formattedTime
   });
   jQuery('#messages').append(html);
-  // //puts on list
-  // var li = jQuery('<li></li>');
-  // //create link text and open in new tab (_blank)
-  // var a = jQuery('<a target = "_blank">My current Location</a>');
-  //
-  // li.text(`${message.from} ${formattedTime}: `);
-  // //adding reference link
-  // a.attr('href', message.url);
-  // li.append(a);
-  // jQuery('#messages').append(li);
+  scrollToBottom();
 });
 
 //using jquery to display messages on UI instead of console
