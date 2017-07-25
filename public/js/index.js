@@ -10,20 +10,22 @@ socket.on('disconnect', function(){
 });
 
 socket.on('newMessage', function(message){
+  var formattedTime = moment(message.createdAt).format('h:mm a');
   console.log('newMessage', message);
   var li = jQuery('<li></li>');
-  li.text(`${message.from}: ${message.text}`);
+  li.text(`${message.from} ${formattedTime}: ${message.text}`);
 
   jQuery('#messages').append(li);
 });
 
 socket.on('newLocationMessage', function(message){
+  var formattedTime = moment(message.createdAt).format('h:mm a');
   //puts on list
   var li = jQuery('<li></li>');
   //create link text and open in new tab (_blank)
   var a = jQuery('<a target = "_blank">My current Location</a>');
 
-  li.text(`${message.from}: `);
+  li.text(`${message.from} ${formattedTime}: `);
   //adding reference link
   a.attr('href', message.url);
   li.append(a);
