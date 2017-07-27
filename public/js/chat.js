@@ -27,11 +27,20 @@ socket.on('connect', function(){
       console.log('no error');
     }
   });
-
 });
 //check for disconnect
 socket.on('disconnect', function(){
   console.log('disconnected from server');
+});
+
+socket.on('updateUserList', function(users){
+  var ol = jQuery('<ol></ol>');
+
+  users.forEach(function(user){
+    ol.append(jQuery('<li></li>').text(user));
+  });
+
+  jQuery('#users').html(ol);
 });
 
 socket.on('newMessage', function(message){
